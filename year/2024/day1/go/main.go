@@ -48,7 +48,7 @@ func main() {
 	for i := 0; i < len(left); i++ {
 		totalDistance += abs(left[i] - right[i])
 	}
-	fmt.Println("part 1: total distance", totalDistance)
+	fmt.Println("part 1: total distance:", totalDistance)
 
 	occurrences := make(map[int]int)
 	for i := range right {
@@ -61,7 +61,7 @@ func main() {
 		similarityScore += left[i] * occurrences[left[i]]
 	}
 
-	fmt.Println("part 2: similarity score", similarityScore)
+	fmt.Println("part 2: similarity score:", similarityScore)
 }
 
 func abs(x int) int {
