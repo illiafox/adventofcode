@@ -11,11 +11,11 @@ This repository contains my solutions for the [Advent of Code](https://adventofc
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/advent-of-code-solutions.git
+   git clone https://github.com/illiafox/adventofcode.git
    ```
 2. Navigate to the appropriate year's folder:
    ```bash
-   cd 2024/day1
+   cd year/2024/day1
    ```
 3. Run a solution (e.g., Day 1 in Go):
    ```bash
@@ -24,6 +24,6 @@ This repository contains my solutions for the [Advent of Code](https://adventofc
 
 ## License
 
-This repository is open-source and available under the [MIT License](LICENSE).
+This repository is open-source and available under the [BSL-1.0 license](LICENSE).
 
 ---
