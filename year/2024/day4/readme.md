@@ -8,7 +8,7 @@ Languages:
    
 Output:
 ```
-part 1: sum: 163931492
-part 2: sum with do and don't instructions: 76911921
+part 1: 2532
+part 2: 1941
 ```
 

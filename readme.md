@@ -30,8 +30,11 @@ organized into its own folder, with the corresponding problems and solutions.
    # For golang 
    go run go/main.go testdata/input.txt # or testdata/myinput.txt
     ```
+
 # Contributing
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
+### Todo:
+- [ ] Tests
 
 ## License
 This repository is open-source and available under the [BSL-1.0 license](LICENSE).
