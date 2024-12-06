@@ -1,40 +1,39 @@
-import {PathLike} from "node:fs";
-import {readFile} from "node:fs/promises";
+import { PathLike } from "node:fs";
 
 import fs from "fs";
 import readline from "readline";
 
 // https://en.wikipedia.org/wiki/Topological_sorting
 function topologicalSort(appliedRules: number[][]) {
-    let out: number[] = []
+    const out: number[] = [];
     const edgesNum = new Map<number, number>();
 
-    let graph = new Map<number, number[]>()
-    for (let [x, y] of appliedRules) {
-        if (!graph.has(x)) graph.set(x, [])
-        if (!graph.has(y)) graph.set(y, [])
+    const graph = new Map<number, number[]>();
+    for (const [x, y] of appliedRules) {
+        if (!graph.has(x)) graph.set(x, []);
+        if (!graph.has(y)) graph.set(y, []);
 
-        graph.get(x)!.push(y)
-        edgesNum.set(x, edgesNum.get(x) || 0)
-        edgesNum.set(y, (edgesNum.get(y) || 0) + 1)
+        graph.get(x)!.push(y);
+        edgesNum.set(x, edgesNum.get(x) || 0);
+        edgesNum.set(y, (edgesNum.get(y) || 0) + 1);
     }
 
-    let withNoEdges: number[] = []
+    const withNoEdges: number[] = [];
     for (const [k, v] of edgesNum) {
         if (v === 0) {
-            withNoEdges.push(k)
+            withNoEdges.push(k);
         }
     }
 
     while (withNoEdges.length >= 0) {
-        const n = withNoEdges.shift()
-        if (!n) break
-        out.push(n)
+        const n = withNoEdges.shift();
+        if (!n) break;
+        out.push(n);
 
         for (const m of graph.get(n) || []) {
-            edgesNum.set(m, edgesNum.get(m)! - 1)
+            edgesNum.set(m, edgesNum.get(m)! - 1);
             if (edgesNum.get(m) === 0) {
-                withNoEdges.push(m)
+                withNoEdges.push(m);
             }
         }
     }
@@ -44,17 +43,17 @@ function topologicalSort(appliedRules: number[][]) {
         return [];
     }
 
-    return out
+    return out;
 }
 
 function sort(update: number[], rules: Map<number, number[]>): number[] {
-    let position = new Map<number, number>();
+    const position = new Map<number, number>();
 
     update.forEach((element, idx) => {
-        position.set(element, idx)
+        position.set(element, idx);
     });
 
-    let appliedRules: number[][] = []
+    const appliedRules: number[][] = [];
 
     for (const up of update) {
         const rls = rules.get(up);
@@ -64,21 +63,21 @@ function sort(update: number[], rules: Map<number, number[]>): number[] {
             const v = position.get(val);
             const k = position.get(up);
             if (v !== undefined && k !== undefined) {
-                appliedRules.push([up, val])
+                appliedRules.push([up, val]);
             }
         }
     }
 
-    update = topologicalSort(appliedRules)
+    update = topologicalSort(appliedRules);
 
-    return update
+    return update;
 }
 
 function checkUpdate(update: number[], rules: Map<number, number[]>): boolean {
-    let position = new Map<number, number>();
+    const position = new Map<number, number>();
 
     update.forEach((element, idx) => {
-        position.set(element, idx)
+        position.set(element, idx);
     });
 
     for (const up of update) {
@@ -89,13 +88,13 @@ function checkUpdate(update: number[], rules: Map<number, number[]>): boolean {
             const v = position.get(val);
             const k = position.get(up);
             if (v !== undefined && k !== undefined && v < k) {
-                console.log(`Rule violated: ${val} (${v}) must appear after ${up} (${k})`);
+                // console.log(`Rule violated: ${val} (${v}) must appear after ${up} (${k})`);
                 return false;
             }
         }
     }
 
-    return true
+    return true;
 }
 
 async function processLineByLine(path: PathLike) {
@@ -106,39 +105,35 @@ async function processLineByLine(path: PathLike) {
         crlfDelay: Infinity,
     });
 
-    let rulesMap = new Map<number, number[]>();
+    const rulesMap = new Map<number, number[]>();
 
-    for await (let line of rl) {
-        if (line === "") break
+    for await (const line of rl) {
+        if (line === "") break;
 
-        const nums = line.split('|').map(Number);
-        const a = nums[0]
-        const b = nums[1]
+        const nums = line.split("|").map(Number);
+        const a = nums[0];
+        const b = nums[1];
 
-
-        let m = rulesMap.get(a)
+        let m = rulesMap.get(a);
         if (!m) {
-            m = []
+            m = [];
         }
-        m.push(b)
-        rulesMap.set(a, m)
-
+        m.push(b);
+        rulesMap.set(a, m);
     }
 
-    console.log(rulesMap)
+    let part1 = 0;
+    let part2 = 0;
 
-    let part1 = 0
-    let part2 = 0
-
-    for await (let line of rl) {
-        let update = line.split(',').map(Number);
+    for await (const line of rl) {
+        let update = line.split(",").map(Number);
 
         if (checkUpdate(update, rulesMap)) {
             // console.log('good', update)
-            part1 += update[Math.floor((update.length / 2))]
+            part1 += update[Math.floor(update.length / 2)];
         } else {
-            update = sort(update, rulesMap)
-            part2 += update[Math.floor((update.length / 2))]
+            update = sort(update, rulesMap);
+            part2 += update[Math.floor(update.length / 2)];
         }
     }
 
@@ -154,4 +149,3 @@ if (process.argv.length < 3) {
 }
 
 processLineByLine(process.argv[2]).catch((reason) => console.error(reason));
-

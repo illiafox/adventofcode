@@ -1,4 +1,4 @@
-### [Day 4](https://adventofcode.com/2024/day/4): Ceres Search
+### [Day 5](https://adventofcode.com/2024/day/5): Print Queue
 
 Languages: 
 -  [TypeScript](https://www.typescriptlang.org/)
@@ -8,7 +8,8 @@ Languages:
    
 Output:
 ```
-part 1: 2532
-part 2: 1941
+$ ts-node src/app.ts ../testdata/input.txt
+part 1: 5208
+part 2: 6732
 ```
 

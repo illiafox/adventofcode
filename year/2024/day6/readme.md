@@ -1,4 +1,4 @@
-### [Day 4](https://adventofcode.com/2024/day/4): Ceres Search
+### [Day 6](https://adventofcode.com/2024/day/6): Guard Gallivant
 
 Languages: 
 -  [TypeScript](https://www.typescriptlang.org/)
@@ -8,7 +8,7 @@ Languages:
    
 Output:
 ```
-part 1: 2532
-part 2: 1941
+part 1: 4656
+part 2: 1575
 ```
 
