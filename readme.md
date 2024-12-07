@@ -31,6 +31,7 @@ organized into its own folder, with the corresponding problems and solutions.
    go run go/main.go testdata/input.txt # or testdata/myinput.txt
     ```
 
+
 # Contributing
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
 ### Todo:
@@ -38,3 +39,10 @@ Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 This repository is open-source and available under the [BSL-1.0 license](LICENSE).
+
+### Years
+
+- 2024 - soon!
+  ![](images/2024.png)
+- 2023
+  ![](images/2023.png)
