@@ -1,4 +1,4 @@
-### [Day 6](https://adventofcode.com/2024/day/6): Guard Gallivant
+### [Day 7](https://adventofcode.com/2024/day/7): Bridge Repair
 
 Languages: 
 -  [TypeScript](https://www.typescriptlang.org/)
@@ -8,7 +8,8 @@ Languages:
    
 Output:
 ```
-part 1: 4656
-part 2: 1575
+$ ts-node src/app.ts ../testdata/input.txt
+part 1:  7885693428401
+part 2:  348360680516005
 ```
 
