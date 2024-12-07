@@ -59,7 +59,7 @@ async function processLineByLine(path: PathLike) {
         const vals = nums[1].split(" ").map(Number);
 
         const part1Actions = [Action.Mul, Action.Add];
-        const part2Actions = [Action.Mul, Action.Add, Action.Con];
+        const part2Actions = [...part1Actions, Action.Con];
 
         for (const [action, start] of [
             [Action.Add, 0],
