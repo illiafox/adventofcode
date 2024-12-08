@@ -24,7 +24,7 @@ function combinations(
 }
 
 function calculatePart1(
-    map: string[][],
+    grid: string[][],
     antennas: Iterable<[number, number][]>,
 ): number {
     let count = 0;
@@ -36,9 +36,9 @@ function calculatePart1(
         ];
 
         positions.forEach(([x, y]) => {
-            if (map[y]?.[x] !== "#" && map[y]?.[x] !== undefined) {
+            if (grid[y]?.[x] !== "#" && grid[y]?.[x] !== undefined) {
                 count++;
-                map[y][x] = "#";
+                grid[y][x] = "#";
             }
         });
     });
@@ -47,7 +47,7 @@ function calculatePart1(
 }
 
 function calculatePart2(
-    map: string[][],
+    grid: string[][],
     antennas: Iterable<[number, number][]>,
 ): number {
     combinations(antennas, (x1, y1, x2, y2, diffX, diffY) => {
@@ -62,40 +62,40 @@ function calculatePart2(
             ];
 
             positions.forEach(([x, y]) => {
-                if (map[y]?.[x] !== undefined) {
-                    map[y][x] = "#";
+                if (grid[y]?.[x] !== undefined) {
+                    grid[y][x] = "#";
                     found = true;
                 }
             });
         }
     });
 
-    return map.flat().filter((cell) => cell !== ".").length;
+    return grid.flat().filter((cell) => cell !== ".").length;
 }
 
 async function processInputFile(path: PathLike) {
     const fileStream = await fs.readFile(path);
-    const lines = fileStream
+    const grid = fileStream
         .toString()
         .split(os.EOL)
         .map((line) => line.split(""));
 
-    const antennasMap = new Map<string, [number, number][]>();
+    const antennas = new Map<string, [number, number][]>();
 
-    lines.forEach((line, rowIndex) => {
-        line.forEach((symbol, colIndex) => {
+    grid.forEach((line, i) => {
+        line.forEach((symbol, j) => {
             if (symbol !== ".") {
-                if (!antennasMap.has(symbol)) {
-                    antennasMap.set(symbol, [[colIndex, rowIndex]]);
+                if (!antennas.has(symbol)) {
+                    antennas.set(symbol, [[j, i]]);
                 } else {
-                    antennasMap.get(symbol)!.push([colIndex, rowIndex]);
+                    antennas.get(symbol)!.push([j, i]);
                 }
             }
         });
     });
 
-    const part1 = calculatePart1(lines, antennasMap.values());
-    const part2 = calculatePart2(lines, antennasMap.values());
+    const part1 = calculatePart1(grid, antennas.values());
+    const part2 = calculatePart2(grid, antennas.values());
 
     console.log("part 1:", part1);
     console.log("part 2:", part2);
