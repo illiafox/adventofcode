@@ -31,6 +31,11 @@ organized into its own folder, with the corresponding problems and solutions.
    go run go/main.go testdata/input.txt # or testdata/myinput.txt
     ```
 
+# Leaderboard
+
+I'm participating in a private leaderboard with code `3470240-72ff333e`. 
+To join it, visit [Private Leaderboards](https://adventofcode.com/2024/leaderboard/private) page and enter the code above
+
 
 # Contributing
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
