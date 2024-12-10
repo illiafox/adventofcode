@@ -15,14 +15,8 @@ function calculate(
         [0, 1],
         [0, -1],
     ];
-    const oppositeDirections = [1, 0, 3, 2];
 
-    function traverse(
-        curNum: number,
-        i: number,
-        j: number,
-        lastDirection: number,
-    ): number {
+    function traverse(curNum: number, i: number, j: number): number {
         const val = grid[i]?.[j];
         if (val === undefined || val <= curNum || val - curNum > 1) return 0;
 
@@ -32,18 +26,12 @@ function calculate(
             return 1;
         }
 
-        let result = 0;
-        for (let d = 0; d < directions.length; d++) {
-            if (oppositeDirections[lastDirection] === d) continue;
-
-            const [dx, dy] = directions[d];
-            result += traverse(curNum, i + dx, j + dy, d);
-        }
-
-        return result;
+        return directions.reduce((acc, [dx, dy]) => {
+            return acc + traverse(curNum, i + dx, j + dy);
+        }, 0);
     }
 
-    const totalPaths = traverse(-1, startI, startJ, -1);
+    const totalPaths = traverse(-1, startI, startJ);
     return [visited.size, totalPaths];
 }
 
