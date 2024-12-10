@@ -1,4 +1,4 @@
-### [Day 10](https://adventofcode.com/2024/day/8): Hoof It
+### [Day 10](https://adventofcode.com/2024/day/10): Hoof It
 
 Languages: 
 -  [TypeScript](https://www.typescriptlang.org/)
