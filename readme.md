@@ -41,6 +41,7 @@ To join it, visit [Private Leaderboards](https://adventofcode.com/2024/leaderboa
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
 ### Todo:
 - [ ] Tests
+- [ ] Day 9
 
 ## License
 This repository is open-source and available under the [BSL-1.0 license](LICENSE).
