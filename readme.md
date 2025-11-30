@@ -1,5 +1,7 @@
 # Advent of Code Solutions
 
+[![2025 Tests](https://github.com/illiafox/adventofcode/actions/workflows/test.yaml/badge.svg)](https://github.com/illiafox/adventofcode/actions/workflows/test.yaml)
+
 This repository contains my solutions for the [Advent of Code](https://adventofcode.com/) challenges. Each year is
 organized into its own folder, with the corresponding problems and solutions.
 
