@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: rustup update stable && rustup default stable
-      - run: cd year/2025 && cargo test --verbose
+      - run: cd year/2025/rust && cargo test --verbose

@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fs::read_to_string;
 use std::str::Lines;
 
 struct Input {
@@ -30,7 +29,7 @@ fn read_input(lines: Lines) -> Input {
     Input { left, right }
 }
 
-fn part_one(input: &Input) -> i32 {
+fn get_total_distance(input: &Input) -> i32 {
     let mut total_distance = 0;
     for i in 0..input.left.len() {
         total_distance += i32::abs(input.left[i] - input.right[i])
@@ -39,7 +38,7 @@ fn part_one(input: &Input) -> i32 {
     total_distance
 }
 
-fn part_two(input: &Input) -> i32 {
+fn get_similarity_score(input: &Input) -> i32 {
     let mut occurrences: HashMap<i32, i32> = HashMap::new();
 
     for &num in input.right.iter() {
@@ -54,24 +53,17 @@ fn part_two(input: &Input) -> i32 {
     similarity_score
 }
 
-fn main() {
-    let filename = "../testdata/input.txt";
-    let file = read_to_string(filename).unwrap();
-
-    let input = read_input(file.lines());
-
-    let part_one = part_one(&input);
-    println!("part 1: total distance: {part_one}");
-
-    let part_two = part_two(&input);
-    println!("part 2: similarity score: {part_two}");
-}
-
 #[test]
 fn test() {
-    let file = include_str!("../../testdata/input.txt");
+    let file = include_str!("input.txt");
     let input = read_input(file.lines());
 
-    assert_eq!(part_one(&input), 2580760);
-    assert_eq!(part_two(&input), 25358365);
+    let total_distance = get_total_distance(&input);
+    let similarity_score = get_similarity_score(&input);
+
+    println!("part 1: total distance: {total_distance}");
+    println!("part 2: similarity score: {similarity_score}");
+
+    assert_eq!(total_distance, 2580760);
+    assert_eq!(similarity_score, 25358365);
 }

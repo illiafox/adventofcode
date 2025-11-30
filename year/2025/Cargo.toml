@@ -1,7 +1,0 @@
-[workspace]
-members = [
-    "day_test/rust",
-    # later: add more days here, e.g.
-    # "day01",
-    # "day02",
-]
