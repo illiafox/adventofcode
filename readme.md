@@ -10,7 +10,7 @@ organized into its own folder, with the corresponding problems and solutions.
         - `testdata/` - Test input files
         - `go/`, `ts/`, `rust/` - Implementations
 - Example: [Day 1](year/2024/day1)
-    
+
 ## Usage
 
 1. Clone the repository:
@@ -33,22 +33,26 @@ organized into its own folder, with the corresponding problems and solutions.
 
 # Leaderboard
 
-I'm participating in a private leaderboard with code `3470240-72ff333e`. 
-To join it, visit [Private Leaderboards](https://adventofcode.com/2024/leaderboard/private) page and enter the code above
-
+I'm participating in a private leaderboard with code `3470240-72ff333e`.
+To join it, visit [Private Leaderboards](https://adventofcode.com/2024/leaderboard/private) page and enter the code
+above
 
 # Contributing
+
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ### Todo:
+
 - [ ] Tests
-- [ ] Day 9
 
 ## License
+
 This repository is open-source and available under the [BSL-1.0 license](LICENSE).
 
 ### Years
 
-- 2024 - soon!
+- 2025 - soon!
+- 2024
   ![](images/2024.png)
 - 2023
   ![](images/2023.png)
