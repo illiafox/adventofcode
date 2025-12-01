@@ -1,4 +1,3 @@
-use crate::day_1::Direction::{Left, Right};
 use std::str::Lines;
 
 enum Direction {
@@ -19,9 +18,9 @@ fn read_input(lines: Lines) -> Input {
         let angle: i32 = angle_str.parse().unwrap();
 
         let direction = match d {
-            "L" => Left(angle),
-            "R" => Right(angle),
-            _ => unreachable!(),
+            "L" => Direction::Left(angle),
+            "R" => Direction::Right(angle),
+            _ => panic!("invalid input"),
         };
 
         directions.push(direction);
@@ -40,8 +39,8 @@ fn part_one(input: &Input) -> i32 {
     let mut total_zeroes = 0;
     for d in input.directions.iter() {
         match d {
-            Left(angle) => current -= angle,
-            Right(angle) => current += angle,
+            Direction::Left(angle) => current -= angle,
+            Direction::Right(angle) => current += angle,
         }
 
         current = normalize(current);
@@ -62,7 +61,7 @@ fn part_two(input: &Input) -> i32 {
         let start = current;
 
         match d {
-            Left(angle) => {
+            Direction::Left(angle) => {
                 let step = angle % 100;
                 current = normalize(start - step);
 
@@ -72,7 +71,7 @@ fn part_two(input: &Input) -> i32 {
                 }
             }
 
-            Right(angle) => {
+            Direction::Right(angle) => {
                 let step = angle % 100;
                 current = normalize(start + step);
 
