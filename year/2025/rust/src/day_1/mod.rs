@@ -1,5 +1,4 @@
 use crate::day_1::Direction::{Left, Right};
-use std::collections::HashMap;
 use std::str::Lines;
 
 enum Direction {
@@ -31,17 +30,10 @@ fn read_input(lines: Lines) -> Input {
     Input { directions }
 }
 
-fn normalize(mut current: i32) -> i32 {
-    loop {
-        if current < 0 {
-            current = 99 + (current) + 1
-        } else if current > 99 {
-            current = current - 100
-        } else {
-            return current;
-        }
-    }
+fn normalize(current: i32) -> i32 {
+    current.rem_euclid(100)
 }
+
 fn part_one(input: &Input) -> i32 {
     let mut current = 50;
 
