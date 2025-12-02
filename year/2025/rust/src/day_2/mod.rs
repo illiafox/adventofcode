@@ -39,14 +39,9 @@ pub fn has_repeated_half(n: i64) -> bool {
         return false;
     }
 
-    let half = len / 2;
+    let pow = 10_i64.pow((len / 2) as u32);
 
-    let pow = 10_i64.pow(half as u32);
-
-    let right = n % pow;
-    let left = n / pow;
-
-    left == right
+    n % pow == n / pow
 }
 
 // https://leetcode.com/problems/repeated-substring-pattern
