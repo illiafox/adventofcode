@@ -16,6 +16,8 @@ fn read_input(s: &str) -> Input {
 }
 
 fn get_2_joltage(bank: &[i8]) -> i8 {
+    assert!(bank.len() >= 2);
+
     let mut sorted = bank.to_vec();
     sorted.sort_unstable();
 
@@ -37,6 +39,8 @@ fn part_one(input: &Input) -> i64 {
 }
 
 fn get_12_joltage(mut bank: &[i8]) -> i64 {
+    assert!(bank.len() >= 12);
+
     let mut joltage = 0;
 
     for digits_left in (1..=12).rev() {
