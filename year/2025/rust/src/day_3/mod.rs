@@ -72,11 +72,8 @@ fn test_example() {
     let file = include_str!("example_input.txt");
     let input = read_input(file);
 
-    let part_one = part_one(&input);
-    assert_eq!(part_one, 357);
-
-    let part_two = part_two(&input);
-    assert_eq!(part_two, 3121910778619);
+    assert_eq!(part_one(&input), 357);
+    assert_eq!(part_two(&input), 3121910778619);
 }
 
 #[test]
@@ -84,9 +81,6 @@ fn test_custom_input() {
     let file = include_str!("input.txt");
     let input = read_input(file);
 
-    let part_one = part_one(&input);
-    assert_eq!(part_one, 17031);
-
-    let part_two = part_two(&input);
-    assert_eq!(part_two, 168575096286051);
+    assert_eq!(part_one(&input), 17031);
+    assert_eq!(part_two(&input), 168575096286051);
 }
