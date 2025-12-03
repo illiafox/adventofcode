@@ -36,23 +36,24 @@ fn part_one(input: &Input) -> i64 {
     input.banks.iter().map(|b| get_2_joltage(b) as i64).sum()
 }
 
-fn find_next_joltage_digit(bank: &[i8], digits_left: usize) -> (i8, usize) {
-    let search_region = &bank[0..=bank.len() - digits_left];
-    let m = *search_region.iter().max().unwrap();
-
-    let idx = search_region.iter().position(|&x| x == m).unwrap();
-
-    (m, idx)
-}
-
-fn get_12_joltage(bank: &[i8]) -> i64 {
-    let mut joltage: i64 = 0;
-    let mut bank = bank;
+fn get_12_joltage(mut bank: &[i8]) -> i64 {
+    let mut joltage = 0;
 
     for digits_left in (1..=12).rev() {
-        let (digit, idx) = find_next_joltage_digit(bank, digits_left);
+        let search_region = &bank[..=bank.len() - digits_left];
+
+        let mut digit = -1;
+        let mut idx = 0;
+
+        for (i, &d) in search_region.iter().enumerate() {
+            if d > digit {
+                digit = d;
+                idx = i;
+            }
+        }
+
         joltage = joltage * 10 + digit as i64;
-        bank = &bank[idx + 1..]
+        bank = &bank[idx + 1..];
     }
 
     joltage
