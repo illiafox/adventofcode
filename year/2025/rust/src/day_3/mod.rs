@@ -15,35 +15,12 @@ fn read_input(s: &str) -> Input {
     Input { banks }
 }
 
-fn get_2_joltage(bank: &[i8]) -> i8 {
-    assert!(bank.len() >= 2);
-
-    let mut sorted = bank.to_vec();
-    sorted.sort_unstable();
-
-    for &first in sorted.iter().rev().take(2) {
-        let idx = bank.iter().position(|&x| x == first).unwrap();
-
-        if idx + 1 < bank.len()
-            && let Some(&second) = bank[idx + 1..].iter().max()
-        {
-            return first * 10 + second;
-        }
-    }
-
-    panic!("no valid joltage pair found");
-}
-
-fn part_one(input: &Input) -> i64 {
-    input.banks.iter().map(|b| get_2_joltage(b) as i64).sum()
-}
-
-fn get_12_joltage(mut bank: &[i8]) -> i64 {
-    assert!(bank.len() >= 12);
+fn get_joltage(mut bank: &[i8], digits_count: usize) -> i64 {
+    assert!(bank.len() >= digits_count);
 
     let mut joltage = 0;
 
-    for digits_left in (1..=12).rev() {
+    for digits_left in (1..=digits_count).rev() {
         let search_region = &bank[..=bank.len() - digits_left];
 
         let mut digit = -1;
@@ -63,8 +40,12 @@ fn get_12_joltage(mut bank: &[i8]) -> i64 {
     joltage
 }
 
+fn part_one(input: &Input) -> i64 {
+    input.banks.iter().map(|b| get_joltage(b, 2)).sum()
+}
+
 fn part_two(input: &Input) -> i64 {
-    input.banks.iter().map(|b| get_12_joltage(b)).sum()
+    input.banks.iter().map(|b| get_joltage(b, 12)).sum()
 }
 
 #[test]
