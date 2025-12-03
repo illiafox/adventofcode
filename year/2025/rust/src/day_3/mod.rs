@@ -54,6 +54,7 @@ fn test_example() {
     let input = read_input(file);
 
     assert_eq!(part_one(&input), 357);
+    assert_eq!(part_one_old(&input), 357);
     assert_eq!(part_two(&input), 3121910778619);
 }
 
@@ -63,5 +64,30 @@ fn test_custom_input() {
     let input = read_input(file);
 
     assert_eq!(part_one(&input), 17031);
+    assert_eq!(part_one_old(&input), 17031);
     assert_eq!(part_two(&input), 168575096286051);
+}
+
+// old version
+fn part_one_old(input: &Input) -> i64 {
+    input.banks.iter().map(|d| get_2_joltage(d)).sum()
+}
+
+fn get_2_joltage(bank: &[i8]) -> i64 {
+    assert!(bank.len() >= 2);
+
+    let mut sorted = bank.to_vec();
+    sorted.sort_unstable();
+
+    for &first in sorted.iter().rev().take(2) {
+        let idx = bank.iter().position(|&x| x == first).unwrap();
+
+        if idx + 1 < bank.len()
+            && let Some(&second) = bank[idx + 1..].iter().max()
+        {
+            return (first * 10 + second) as i64;
+        }
+    }
+
+    panic!("no valid joltage pair found");
 }
