@@ -4,8 +4,8 @@ struct Input {
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 enum Tile {
-    Empty(),
-    Roll(),
+    Empty,
+    Roll,
 }
 
 fn read_input(s: &str) -> Vec<Vec<Tile>> {
@@ -13,8 +13,8 @@ fn read_input(s: &str) -> Vec<Vec<Tile>> {
         .map(|line| {
             line.chars()
                 .map(|c| match c {
-                    '.' => Tile::Empty(),
-                    '@' => Tile::Roll(),
+                    '.' => Tile::Empty,
+                    '@' => Tile::Roll,
                     _ => panic!("wrong input char {c}"),
                 })
                 .collect()
@@ -33,7 +33,7 @@ fn traverse(map: &[Vec<Tile>]) -> (i64, Vec<(usize, usize)>) {
         for j in 0..width {
             let elem = map[i][j];
 
-            if let Tile::Empty() = elem {
+            if let Tile::Empty = elem {
                 continue;
             }
 
@@ -54,18 +54,9 @@ fn traverse(map: &[Vec<Tile>]) -> (i64, Vec<(usize, usize)>) {
                 let new_i = i as i32 + dy;
                 let new_j = j as i32 + dx;
 
-                if new_j < 0
-                    || new_j >= map[i].len() as i32
-                    || new_i < 0
-                    || new_i >= map.len() as i32
+                if let Some(row) = map.get(new_i as usize)
+                    && let Some(Tile::Roll) = row.get(new_j as usize)
                 {
-                    continue;
-                }
-
-                let new_i = new_i as usize;
-                let new_j = new_j as usize;
-
-                if map[new_i][new_j] == Tile::Roll() {
                     rolls += 1;
                 }
             }
@@ -99,7 +90,7 @@ fn part_two(map: &[Vec<Tile>]) -> i64 {
         }
 
         for (i, j) in points {
-            cloned[i][j] = Tile::Empty()
+            cloned[i][j] = Tile::Empty
         }
     }
 }
