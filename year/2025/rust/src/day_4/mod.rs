@@ -2,7 +2,7 @@ struct Input {
     map: Vec<Vec<Tile>>,
 }
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Copy, Clone)]
 enum Tile {
     Empty,
     Roll,
@@ -22,9 +22,9 @@ fn read_input(s: &str) -> Vec<Vec<Tile>> {
         .collect()
 }
 
-fn traverse(map: &[Vec<Tile>]) -> (i64, Vec<(usize, usize)>) {
+fn remove_rolls(map: &[Vec<Tile>]) -> (i64, Vec<(usize, usize)>) {
     let mut rolls_removed = 0;
-    let mut removed = Vec::new();
+    let mut points = Vec::new();
 
     let height = map.len();
 
@@ -63,34 +63,35 @@ fn traverse(map: &[Vec<Tile>]) -> (i64, Vec<(usize, usize)>) {
 
             if rolls < 4 {
                 rolls_removed += 1;
-                removed.push((i, j));
+                points.push((i, j));
             }
         }
     }
 
-    (rolls_removed, removed)
+    (rolls_removed, points)
 }
 
 fn part_one(map: &[Vec<Tile>]) -> i64 {
-    let (rolls_removed, _) = traverse(map);
+    let (rolls_removed, _) = remove_rolls(map);
 
     rolls_removed
 }
 
 fn part_two(map: &[Vec<Tile>]) -> i64 {
-    let mut cloned: Vec<Vec<Tile>> = map.to_vec();
+    let mut map: Vec<Vec<Tile>> = map.to_vec();
 
-    let mut out = 0;
+    let mut removed_total = 0;
 
     loop {
-        let (removed, points) = traverse(&cloned);
-        out += removed;
+        let (removed, rolls) = remove_rolls(&map);
         if removed == 0 {
-            return out;
+            return removed_total;
         }
 
-        for (i, j) in points {
-            cloned[i][j] = Tile::Empty
+        removed_total += removed;
+
+        for (i, j) in rolls {
+            map[i][j] = Tile::Empty
         }
     }
 }
