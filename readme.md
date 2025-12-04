@@ -7,6 +7,16 @@ organized into its own folder, with the corresponding problems and solutions.
 
 ## Structure
 
+#### 2025
+
+- `year/2025/rust/src`: Rust solutions
+    - `day_1/`, `day_2/`, ...:
+        - `input.txt`, `example_input.txt` - Test input files
+        - `mod.rs` - Solution with tests
+- Example: [Day 1](year/2025/rust/src/day_1)
+
+#### 2024
+
 - `year/2024/`: Folder for each year.
     - `day1/`, `day2/`, ...: Solutions for each day.
         - `testdata/` - Test input files
@@ -19,7 +29,21 @@ organized into its own folder, with the corresponding problems and solutions.
    ```bash
    git clone https://github.com/illiafox/adventofcode.git
    ```
-2. Navigate to the appropriate folder:
+
+#### 2025
+
+2. Navigate to the folder:
+   ```bash
+   cd year/2024/rust
+   ```
+3. Run tests
+    ```bash
+    cargo test
+    ```
+
+#### 2024
+
+2. Navigate to the folder:
    ```bash
    cd year/2024/day1
    ```
@@ -43,17 +67,13 @@ above
 
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
 
-### Todo:
-
-- [ ] Tests
-
 ## License
 
 This repository is open-source and available under the [BSL-1.0 license](LICENSE).
 
 ### Years
 
-- 2025 - soon!
+- 2025 - In progress!
 - 2024
   ![](images/2024.png)
 - 2023
