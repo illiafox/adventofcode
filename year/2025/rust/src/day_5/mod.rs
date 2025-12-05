@@ -65,7 +65,6 @@ fn part_one(input: &Input) -> i64 {
     let merged = merge_ranges(&input.ranges);
 
     let mut fresh_count = 0;
-
     for &id in input.check_ids.iter() {
         if search_binary(&merged, id) {
             fresh_count += 1
@@ -76,9 +75,9 @@ fn part_one(input: &Input) -> i64 {
 }
 
 fn part_two(input: &Input) -> i64 {
-    let mut fresh_count = 0;
-
     let merged = merge_ranges(&input.ranges);
+
+    let mut fresh_count = 0;
     for &(start, end) in merged.iter() {
         fresh_count += end - start + 1
     }
