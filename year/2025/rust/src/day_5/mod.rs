@@ -54,11 +54,12 @@ fn merge_ranges(ranges: &[(usize, usize)]) -> Vec<(usize, usize)> {
 
 fn search_binary(ranges: &[(usize, usize)], id: usize) -> bool {
     let idx = ranges.partition_point(|&(start, _)| start <= id);
-    if idx == 0 {
-        return false;
+    if idx > 0 {
+        let (start, end) = ranges[idx - 1];
+        return (start..=end).contains(&id);
     }
-    let (start, end) = ranges[idx - 1];
-    id >= start && id <= end
+
+    false
 }
 
 fn part_one(input: &Input) -> i64 {
