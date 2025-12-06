@@ -15,80 +15,77 @@ fn read_input(s: &str) -> Input {
         .into_iter()
         .map(|line| {
             line.split_whitespace()
-                .map(|s| s.parse::<i64>().unwrap())
-                .collect::<Vec<i64>>()
+                .map(|s| s.parse().unwrap())
+                .collect()
         })
-        .collect::<Vec<Vec<i64>>>();
+        .collect();
 
     let operators = op_line
         .split_whitespace()
         .map(|s| s.chars().next().unwrap())
-        .collect::<Vec<char>>();
+        .collect();
 
     Input { numbers, operators }
 }
 
 fn parse_grid(input: &str) -> Vec<Vec<char>> {
-    let lines: Vec<&str> = input.lines().filter(|l| !l.trim().is_empty()).collect();
+    input
+        .lines()
+        .filter(|l| !l.trim().is_empty())
+        .map(|line| line.chars().collect())
+        .collect()
+}
 
-    lines
-        .iter()
-        .map(|line| line.chars().collect::<Vec<char>>())
-        .collect::<Vec<Vec<char>>>()
+fn get_op(c: char) -> (fn(i64, i64) -> i64, i64) {
+    match c {
+        '+' => (|a, b| a + b, 0),
+        '*' => (|a, b| a * b, 1),
+        _ => panic!("unsupported char"),
+    }
 }
 
 fn part_one(numbers: Vec<Vec<i64>>, operators: Vec<char>) -> i64 {
     let mut sum = 0;
 
     for j in 0..operators.len() {
-        let op = match operators[j] {
-            '+' => |a, b| a + b,
-            '*' => |a, b| a * b,
-            _ => panic!("unsupported char"),
-        };
+        let (op, mut start) = get_op(operators[j]);
 
-        let mut res = numbers[0][j];
-        for i in 1..numbers.len() {
-            res = op(res, numbers[i][j])
+        for row in numbers.iter() {
+            start = op(start, row[j])
         }
 
-        sum += res
+        sum += start
     }
 
     sum
 }
 
 fn part_two(file: &str) -> i64 {
+    let grid = parse_grid(file);
+    let last = grid.len() - 1;
+
     let mut sum = 0;
 
-    let grid = parse_grid(file);
-
+    let mut op: Option<fn(i64, i64) -> i64> = None;
     let mut res = 0;
-    let mut op: fn(i64, i64) -> i64 = |_, _| panic!("wrong op!");
 
-    for j in 0..grid[0].len() {
-        if grid[grid.len() - 1].len() > j {
-            let op_char = grid[grid.len() - 1][j];
-            if op_char != ' ' {
-                op = match op_char {
-                    '+' => |a, b| a + b,
-                    '*' => |a, b| a * b,
-                    _ => panic!("wrong op!"),
-                };
-                res = match op_char {
-                    '+' => 0,
-                    '*' => 1,
-                    _ => panic!("wrong op!"),
-                }
-            }
+    let width = grid.iter().map(|r| r.len()).max().unwrap_or(0);
+
+    for j in 0..width {
+        if let Some(&op_char) = grid[last].get(j)
+            && op_char != ' '
+        {
+            let (f, start) = get_op(op_char);
+            op = Some(f);
+            res = start;
         }
 
-        let mut num = 0;
-        for row in grid.iter().take(grid.len() - 1) {
-            if j < row.len()
-                && let Some(d) = row[j].to_digit(10)
+        let mut num: i64 = 0;
+        for row in grid.iter().take(last) {
+            if let Some(&ch) = row.get(j)
+                && let Some(d) = ch.to_digit(10)
             {
-                num = num * 10 + d
+                num = num * 10 + d as i64;
             }
         }
 
@@ -98,12 +95,10 @@ fn part_two(file: &str) -> i64 {
             continue;
         }
 
-        res = op(res, num as i64);
+        res = op.expect("operator must be defined")(res, num);
     }
 
-    sum += res;
-
-    sum
+    sum + res // + last num
 }
 
 #[test]
