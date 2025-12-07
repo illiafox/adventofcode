@@ -1,18 +1,11 @@
-struct Input {
-    banks: Vec<Vec<i8>>,
-}
-
-fn read_input(s: &str) -> Input {
-    let banks = s
-        .lines()
+fn parse_banks(s: &str) -> Vec<Vec<i8>> {
+    s.lines()
         .map(|line| {
             line.chars()
                 .map(|c| c.to_digit(10).unwrap() as i8)
                 .collect()
         })
-        .collect();
-
-    Input { banks }
+        .collect()
 }
 
 fn get_joltage(mut bank: &[i8], digits_count: usize) -> i64 {
@@ -40,37 +33,37 @@ fn get_joltage(mut bank: &[i8], digits_count: usize) -> i64 {
     joltage
 }
 
-fn part_one(input: &Input) -> i64 {
-    input.banks.iter().map(|b| get_joltage(b, 2)).sum()
+fn part_one(banks: &[Vec<i8>]) -> i64 {
+    banks.iter().map(|b| get_joltage(b, 2)).sum()
 }
 
-fn part_two(input: &Input) -> i64 {
-    input.banks.iter().map(|b| get_joltage(b, 12)).sum()
+fn part_two(banks: &[Vec<i8>]) -> i64 {
+    banks.iter().map(|b| get_joltage(b, 12)).sum()
 }
 
 #[test]
 fn test_example() {
     let file = include_str!("example_input.txt");
-    let input = read_input(file);
+    let banks = parse_banks(file);
 
-    assert_eq!(part_one(&input), 357);
-    assert_eq!(part_one_old(&input), 357);
-    assert_eq!(part_two(&input), 3121910778619);
+    assert_eq!(part_one(&banks), 357);
+    assert_eq!(part_one_old(&banks), 357);
+    assert_eq!(part_two(&banks), 3121910778619);
 }
 
 #[test]
 fn test_custom_input() {
     let file = include_str!("input.txt");
-    let input = read_input(file);
+    let banks = parse_banks(file);
 
-    assert_eq!(part_one(&input), 17031);
-    assert_eq!(part_one_old(&input), 17031);
-    assert_eq!(part_two(&input), 168575096286051);
+    assert_eq!(part_one(&banks), 17031);
+    assert_eq!(part_one_old(&banks), 17031);
+    assert_eq!(part_two(&banks), 168575096286051);
 }
 
 // old version
-fn part_one_old(input: &Input) -> i64 {
-    input.banks.iter().map(|d| get_2_joltage(d)).sum()
+fn part_one_old(banks: &[Vec<i8>]) -> i64 {
+    banks.iter().map(|d| get_2_joltage(d)).sum()
 }
 
 fn get_2_joltage(bank: &[i8]) -> i64 {

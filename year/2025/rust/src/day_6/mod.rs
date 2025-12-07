@@ -1,9 +1,4 @@
-struct Input {
-    numbers: Vec<Vec<i64>>,
-    operators: Vec<char>,
-}
-
-fn read_input(s: &str) -> Input {
+fn read_input(s: &str) -> (Vec<Vec<i64>>, Vec<char>) {
     let mut rows = s
         .lines()
         .filter(|l| !l.trim().is_empty())
@@ -25,7 +20,7 @@ fn read_input(s: &str) -> Input {
         .map(|s| s.chars().next().unwrap())
         .collect();
 
-    Input { numbers, operators }
+    (numbers, operators)
 }
 
 fn parse_grid(input: &str) -> Vec<Vec<char>> {
@@ -44,7 +39,7 @@ fn get_op(c: char) -> (fn(i64, i64) -> i64, i64) {
     }
 }
 
-fn part_one(numbers: Vec<Vec<i64>>, operators: Vec<char>) -> i64 {
+fn part_one(numbers: &[Vec<i64>], operators: &[char]) -> i64 {
     let mut sum = 0;
 
     for j in 0..operators.len() {
@@ -60,14 +55,12 @@ fn part_one(numbers: Vec<Vec<i64>>, operators: Vec<char>) -> i64 {
     sum
 }
 
-fn part_two(file: &str) -> i64 {
-    let grid = parse_grid(file);
+fn part_two(grid: &[Vec<char>]) -> i64 {
     let last = grid.len() - 1;
 
     let mut sum = 0;
-
     let mut op: Option<fn(i64, i64) -> i64> = None;
-    let mut res = 0;
+    let mut buf = 0;
 
     let width = grid.iter().map(|r| r.len()).max().unwrap_or(0);
 
@@ -77,7 +70,7 @@ fn part_two(file: &str) -> i64 {
         {
             let (f, start) = get_op(op_char);
             op = Some(f);
-            res = start;
+            buf = start;
         }
 
         let mut num: i64 = 0;
@@ -90,31 +83,33 @@ fn part_two(file: &str) -> i64 {
         }
 
         if num == 0 {
-            sum += res;
-            res = 0;
+            sum += buf;
+            buf = 0;
             continue;
         }
 
-        res = op.expect("operator must be defined")(res, num);
+        buf = op.expect("operator must be defined")(buf, num);
     }
 
-    sum + res // + last num
+    sum + buf // + last num
 }
 
 #[test]
 fn test_example() {
     let file = include_str!("example_input.txt");
-    let input = read_input(file);
+    let (numbers, operators) = read_input(file);
+    let grid = parse_grid(file);
 
-    assert_eq!(part_one(input.numbers, input.operators), 4277556);
-    assert_eq!(part_two(file), 3263827);
+    assert_eq!(part_one(&numbers, &operators), 4277556);
+    assert_eq!(part_two(&grid), 3263827);
 }
 
 #[test]
 fn test_custom_input() {
     let file = include_str!("input.txt");
-    let input = read_input(file);
+    let (numbers, operators) = read_input(file);
+    let grid = parse_grid(file);
 
-    assert_eq!(part_one(input.numbers, input.operators), 5335495999141);
-    assert_eq!(part_two(file), 10142723156431);
+    assert_eq!(part_one(&numbers, &operators), 5335495999141);
+    assert_eq!(part_two(&grid), 10142723156431);
 }

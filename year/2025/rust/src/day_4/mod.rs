@@ -1,14 +1,10 @@
-struct Input {
-    map: Vec<Vec<Tile>>,
-}
-
 #[derive(Copy, Clone)]
 enum Tile {
     Empty,
     Roll,
 }
 
-fn read_input(s: &str) -> Vec<Vec<Tile>> {
+fn parse_map(s: &str) -> Vec<Vec<Tile>> {
     s.lines()
         .map(|line| {
             line.chars()
@@ -99,7 +95,7 @@ fn part_two(map: &[Vec<Tile>]) -> i64 {
 #[test]
 fn test_example() {
     let file = include_str!("example_input.txt");
-    let map = read_input(file);
+    let map = parse_map(file);
 
     assert_eq!(part_one(&map), 13);
     assert_eq!(part_two(&map), 43);
@@ -108,7 +104,7 @@ fn test_example() {
 #[test]
 fn test_custom_input() {
     let file = include_str!("input.txt");
-    let map = read_input(file);
+    let map = parse_map(file);
 
     assert_eq!(part_one(&map), 1569);
     assert_eq!(part_two(&map), 9280);

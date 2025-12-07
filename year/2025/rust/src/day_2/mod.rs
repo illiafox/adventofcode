@@ -1,8 +1,4 @@
-struct Input {
-    ranges: Vec<(i64, i64)>,
-}
-
-fn read_input(s: &str) -> Input {
+fn parse_ranges(s: &str) -> Vec<(i64, i64)> {
     let mut ranges = Vec::new();
 
     for line in s.split(',') {
@@ -14,7 +10,7 @@ fn read_input(s: &str) -> Input {
         ranges.push((start, end));
     }
 
-    Input { ranges }
+    ranges
 }
 
 fn digit_count(mut n: i64) -> usize {
@@ -55,10 +51,10 @@ pub fn repeats_at_least_twice(n: i64) -> bool {
     doubled[1..doubled.len() - 1].contains(&s)
 }
 
-fn part_one(input: &Input) -> i64 {
+fn part_one(ranges: &[(i64, i64)]) -> i64 {
     let mut sum = 0;
 
-    for &(start, end) in input.ranges.iter() {
+    for &(start, end) in ranges.iter() {
         for n in start..=end {
             if has_repeated_half(n) {
                 sum += n
@@ -69,10 +65,10 @@ fn part_one(input: &Input) -> i64 {
     sum
 }
 
-fn part_two(input: &Input) -> i64 {
+fn part_two(ranges: &[(i64, i64)]) -> i64 {
     let mut sum = 0;
 
-    for &(start, end) in input.ranges.iter() {
+    for &(start, end) in ranges.iter() {
         for n in start..=end {
             if repeats_at_least_twice(n) {
                 sum += n
@@ -86,23 +82,17 @@ fn part_two(input: &Input) -> i64 {
 #[test]
 fn test_example() {
     let file = include_str!("example_input.txt");
-    let input = read_input(file);
+    let ranges = parse_ranges(file);
 
-    let part_one = part_one(&input);
-    assert_eq!(part_one, 1227775554);
-
-    let part_two = part_two(&input);
-    assert_eq!(part_two, 4174379265);
+    assert_eq!(part_one(&ranges), 1227775554);
+    assert_eq!(part_two(&ranges), 4174379265);
 }
 
 #[test]
 fn test_custom_input() {
     let file = include_str!("input.txt");
-    let input = read_input(file);
+    let ranges = parse_ranges(file);
 
-    let part_one = part_one(&input);
-    assert_eq!(part_one, 28846518423);
-
-    let part_two = part_two(&input);
-    assert_eq!(part_two, 31578210022);
+    assert_eq!(part_one(&ranges), 28846518423);
+    assert_eq!(part_two(&ranges), 31578210022);
 }

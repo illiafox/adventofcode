@@ -5,11 +5,7 @@ enum Direction {
     Right(i32),
 }
 
-struct Input {
-    directions: Vec<Direction>,
-}
-
-fn read_input(lines: Lines) -> Input {
+fn parse_directions(lines: Lines) -> Vec<Direction> {
     let mut directions = Vec::new();
 
     for line in lines {
@@ -26,18 +22,18 @@ fn read_input(lines: Lines) -> Input {
         directions.push(direction);
     }
 
-    Input { directions }
+    directions
 }
 
 fn normalize(current: i32) -> i32 {
     current.rem_euclid(100)
 }
 
-fn part_one(input: &Input) -> i32 {
+fn part_one(directions: &[Direction]) -> i32 {
     let mut current = 50;
 
     let mut total_zeroes = 0;
-    for d in input.directions.iter() {
+    for d in directions.iter() {
         match d {
             Direction::Left(angle) => current -= angle,
             Direction::Right(angle) => current += angle,
@@ -52,12 +48,12 @@ fn part_one(input: &Input) -> i32 {
     total_zeroes
 }
 
-fn part_two(input: &Input) -> i32 {
+fn part_two(directions: &[Direction]) -> i32 {
     let mut current = 50;
 
     let mut total_zero_clicks = 0;
 
-    for d in input.directions.iter() {
+    for d in directions.iter() {
         let start = current;
 
         match d {
@@ -87,15 +83,19 @@ fn part_two(input: &Input) -> i32 {
 }
 
 #[test]
-fn test() {
+fn test_example() {
+    let file = include_str!("example_input.txt");
+    let dirs = parse_directions(file.lines());
+
+    assert_eq!(part_one(&dirs), 3);
+    assert_eq!(part_two(&dirs), 6);
+}
+
+#[test]
+fn test_custom_input() {
     let file = include_str!("input.txt");
-    let input = read_input(file.lines());
+    let directions = parse_directions(file.lines());
 
-    let total_zeroes = part_one(&input);
-    println!("part 1: total zeroes: {total_zeroes}");
-    assert_eq!(total_zeroes, 1158);
-
-    let part_two = part_two(&input);
-    println!("part 2: total any zeroes clicks: {part_two}");
-    assert_eq!(part_two, 6860);
+    assert_eq!(part_one(&directions), 1158);
+    assert_eq!(part_two(&directions), 6860);
 }

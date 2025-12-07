@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-fn read_input(s: &str) -> Vec<Vec<char>> {
+fn parse_grid(s: &str) -> Vec<Vec<char>> {
     s.lines()
         .filter(|l| !l.trim().is_empty())
         .map(|line| line.chars().collect())
@@ -56,21 +56,21 @@ fn traverse_quant(
     point: (usize, usize),
     memo: &mut HashMap<(usize, usize), i64>,
 ) -> i64 {
-    if let Some(&v) = memo.get(&point) {
-        return v;
+    if let Some(&subtotal) = memo.get(&point) {
+        return subtotal;
     }
 
     let (start_i, j) = point;
 
-    let value = if let Some(i) = next_split_row(grid, start_i, j) {
+    let subtotal = if let Some(i) = next_split_row(grid, start_i, j) {
         let [left, right] = split_directions(i, j);
         traverse_quant(grid, left, memo) + traverse_quant(grid, right, memo)
     } else {
         1 // grid end
     };
 
-    memo.insert(point, value);
-    value
+    memo.insert(point, subtotal);
+    subtotal
 }
 
 fn part_two(grid: &[Vec<char>]) -> i64 {
@@ -80,7 +80,7 @@ fn part_two(grid: &[Vec<char>]) -> i64 {
 #[test]
 fn test_example() {
     let file = include_str!("example_input.txt");
-    let grid = read_input(file);
+    let grid = parse_grid(file);
 
     assert_eq!(part_one(&grid), 21);
     assert_eq!(part_two(&grid), 40);
@@ -89,7 +89,7 @@ fn test_example() {
 #[test]
 fn test_custom_input() {
     let file = include_str!("input.txt");
-    let grid = read_input(file);
+    let grid = parse_grid(file);
 
     assert_eq!(part_one(&grid), 1507);
     assert_eq!(part_two(&grid), 1537373473728);
