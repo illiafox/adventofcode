@@ -12,40 +12,36 @@ fn read_input(s: &str) -> Vec<Vec<char>> {
         .collect()
 }
 
-fn traverse(
-    grid: &Vec<Vec<char>>,
+fn next_split_row(grid: &[Vec<char>], start_i: usize, col: usize) -> Option<usize> {
+    (start_i..grid.len()).find(|&i| grid[i][col] == '^')
+}
+
+fn split_directions(i: usize, j: usize) -> [(usize, usize); 2] {
+    [(i, j - 1), (i, j + 1)]
+}
+
+fn traverse_unique(
+    grid: &[Vec<char>],
     point: (usize, usize),
-    splits: &mut HashSet<(usize, usize)>,
+    seen: &mut HashSet<(usize, usize)>,
 ) -> i64 {
-    let (start_i, start_j) = point;
+    let (start_i, j) = point;
 
-    let mut splits_total = 0;
+    let Some(i) = next_split_row(grid, start_i, j) else {
+        return 0;
+    };
 
-    for i in start_i..grid.len() {
-        if grid[i][start_j] == '^' {
-            let mut new_branch = false;
+    let mut subtotal = 0;
+    let mut new_branch = false;
 
-            let left = (i, start_j - 1);
-            if splits.insert(left) {
-                new_branch = true;
-                splits_total += traverse(grid, left, splits);
-            }
-
-            let right = (i, start_j + 1);
-            if splits.insert(right) {
-                new_branch = true;
-                splits_total += traverse(grid, right, splits);
-            }
-
-            if new_branch {
-                splits_total += 1;
-            }
-
-            break;
+    for direction in split_directions(i, j) {
+        if seen.insert(direction) {
+            new_branch = true;
+            subtotal += traverse_unique(grid, direction, seen);
         }
     }
 
-    splits_total
+    if new_branch { subtotal + 1 } else { subtotal }
 }
 
 fn start_position(grid: &[Vec<char>]) -> (usize, usize) {
@@ -56,43 +52,33 @@ fn start_position(grid: &[Vec<char>]) -> (usize, usize) {
     (1, start_j)
 }
 
-fn part_one(grid: &Vec<Vec<char>>) -> i64 {
-    traverse(grid, start_position(grid), &mut HashSet::new())
+fn part_one(grid: &[Vec<char>]) -> i64 {
+    traverse_unique(grid, start_position(grid), &mut HashSet::new())
 }
 
 fn traverse_quant(
-    grid: &Vec<Vec<char>>,
+    grid: &[Vec<char>],
     point: (usize, usize),
     memo: &mut HashMap<(usize, usize), i64>,
 ) -> i64 {
-    if let Some(&splits_total) = memo.get(&point) {
-        return splits_total;
+    if let Some(&v) = memo.get(&point) {
+        return v;
     }
 
-    let (start_i, start_j) = point;
+    let (start_i, j) = point;
 
-    let mut splits_total = 0;
+    let value = if let Some(i) = next_split_row(grid, start_i, j) {
+        let [left, right] = split_directions(i, j);
+        traverse_quant(grid, left, memo) + traverse_quant(grid, right, memo)
+    } else {
+        1 // grid end
+    };
 
-    for i in start_i..grid.len() {
-        if grid[i][start_j] == '^' {
-            let left = (i, start_j - 1);
-            splits_total += traverse_quant(grid, left, memo);
-
-            let right = (i, start_j + 1);
-            splits_total += traverse_quant(grid, right, memo);
-
-            memo.insert(point, splits_total);
-            return splits_total;
-        }
-    }
-
-    splits_total += 1;
-
-    memo.insert(point, splits_total);
-    splits_total
+    memo.insert(point, value);
+    value
 }
 
-fn part_two(grid: &Vec<Vec<char>>) -> i64 {
+fn part_two(grid: &[Vec<char>]) -> i64 {
     traverse_quant(grid, start_position(grid), &mut HashMap::new())
 }
 
