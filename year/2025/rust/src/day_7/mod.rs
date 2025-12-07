@@ -1,10 +1,5 @@
 use std::collections::{HashMap, HashSet};
 
-struct Input {
-    numbers: Vec<Vec<i64>>,
-    operators: Vec<char>,
-}
-
 fn read_input(s: &str) -> Vec<Vec<char>> {
     s.lines()
         .filter(|l| !l.trim().is_empty())
@@ -85,17 +80,17 @@ fn part_two(grid: &[Vec<char>]) -> i64 {
 #[test]
 fn test_example() {
     let file = include_str!("example_input.txt");
-    let input = read_input(file);
+    let grid = read_input(file);
 
-    assert_eq!(part_one(&input), 21);
-    assert_eq!(part_two(&input), 40);
+    assert_eq!(part_one(&grid), 21);
+    assert_eq!(part_two(&grid), 40);
 }
 
 #[test]
 fn test_custom_input() {
     let file = include_str!("input.txt");
-    let input = read_input(file);
+    let grid = read_input(file);
 
-    assert_eq!(part_one(&input), 1507);
-    assert_eq!(part_two(&input), 1537373473728);
+    assert_eq!(part_one(&grid), 1507);
+    assert_eq!(part_two(&grid), 1537373473728);
 }
