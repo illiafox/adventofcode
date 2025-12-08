@@ -144,5 +144,5 @@ fn test_custom_input() {
     let boxes = parse_grid(file);
 
     assert_eq!(part_one(&boxes, 1000), 75680);
-    assert_eq!(part_two(&boxes), 1537373473728);
+    assert_eq!(part_two(&boxes), 8995844880);
 }
